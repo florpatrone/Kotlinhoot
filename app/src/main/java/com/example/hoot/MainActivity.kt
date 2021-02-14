@@ -1,5 +1,6 @@
 package com.example.hoot
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -14,6 +15,10 @@ class MainActivity : AppCompatActivity() {
         btn_start.setOnClickListener {
             if (et_name.text.toString().isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa un nombre", Toast.LENGTH_SHORT).show()
+            }else{
+                val intent = Intent(this, PreguntasActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
 
