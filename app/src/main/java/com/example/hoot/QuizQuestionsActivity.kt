@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
 
@@ -21,11 +22,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         mQuestionsList = Constants.getQuestions()
         setQuestion()
+
         tv_option_one.setOnClickListener(this)
         tv_option_two.setOnClickListener(this)
         tv_option_three.setOnClickListener(this)
         tv_option_four.setOnClickListener(this)
         tv_option_five.setOnClickListener(this)
+        btn_submit.setOnClickListener(this)
 
     }
 
@@ -46,14 +49,67 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.tv_option_five -> {
                 selectedOptionView(tv_option_five, 5)
             }
+            R.id.btn_submit -> {
+                if (mSelectedOptionPos == 0) {
+                    mCurrentPos++
+
+                    when {
+                        mCurrentPos <= mQuestionsList!!.size -> {
+                            setQuestion()
+                        }
+                        else -> {
+                            Toast.makeText(this, "Terminaste", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }else{
+                    val question = mQuestionsList?.get(mCurrentPos-1)
+                    if(question!!.correctAnswer != mSelectedOptionPos){
+                        answerView(mSelectedOptionPos, R.drawable.wrong_option_border_bg)
+                    }
+                    answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+
+                    if(mCurrentPos == mQuestionsList!!.size){
+                        btn_submit.text = "TERMINAR"
+                    }else{
+                        btn_submit.text = "SIGUIENTE"
+                    }
+                    mSelectedOptionPos = 0
+                }
+            }
+        }
+    }
+
+    private fun answerView(answer: Int, drawableView: Int) {
+        when (answer) {
+            1 -> {
+                tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            2 -> {
+                tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            3 -> {
+                tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            4 -> {
+                tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            5 -> {
+                tv_option_five.background = ContextCompat.getDrawable(this, drawableView)
+            }
         }
     }
 
     private fun setQuestion() {
-        //mCurrentPos = 1
+
         val question = mQuestionsList!![mCurrentPos - 1]
 
         defaultOptionsView()
+
+        if (mCurrentPos == mQuestionsList!!.size){
+            btn_submit.text = "TERMINAR"
+        }else{
+            btn_submit.text = "ENVIAR"
+        }
 
         progress_bar.progress = mCurrentPos
         tv_progress.text = "$mCurrentPos" + "/" + progress_bar.max
