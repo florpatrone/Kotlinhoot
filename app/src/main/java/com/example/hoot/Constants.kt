@@ -1,45 +1,42 @@
 package com.example.hoot
 
 
-object Constantes {
-    fun obtenerPreguntas(): ArrayList<PreguntaChoice> {
-        val listaPreguntas = ArrayList<PreguntaChoice>()
+object Constants {
+    fun getQuestions(): ArrayList<Question> {
+        val questionsList = ArrayList<Question>()
 
-        val preg1 = PreguntaChoice(
+        val que1 = Question(
             1,
             "Cuales de las siguientes son obras de Ray Bradbury?",
             "Fahrenheit 451",
             "Cronicas Marcianas",
             "Bovedas de Acero",
             "Remedio para melancolicos",
-            "El fin de la infancia",
-            arrayListOf(1, 2, 4)
+            "El fin de la infancia",1
         )
-        val preg2 = PreguntaChoice(
+        val que2 = Question(
             2,
             "Cuales de las siguientes bandas no son inglesas?",
             "Pink Floyd",
             "Queen",
             "Metallica",
             "Black Sabbath",
-            "DragonForce",
-            arrayListOf(3)
+            "DragonForce",3
         )
-        val preg3 = PreguntaChoice(
+        val que3 = Question(
             3,
             "Cuales de los siguientes son lenguajes de programacion?",
             "Kotlin",
             "CSS",
             "Brainfuck",
             "HTML",
-            "Oz",
-            arrayListOf(1, 3, 5)
+            "Oz",2
         )
 
-        listaPreguntas.add(preg1)
-        listaPreguntas.add(preg2)
-        listaPreguntas.add(preg3)
-        return listaPreguntas
+        questionsList.add(que1)
+        questionsList.add(que2)
+        questionsList.add(que3)
+        return questionsList
     }
 
 }

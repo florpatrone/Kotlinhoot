@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             if (et_name.text.toString().isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa un nombre", Toast.LENGTH_SHORT).show()
             }else{
-                val intent = Intent(this, PreguntasActivity::class.java)
+                val intent = Intent(this, QuizQuestionsActivity::class.java)
                 startActivity(intent)
                 finish()
             }
