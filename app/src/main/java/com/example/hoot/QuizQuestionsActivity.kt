@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
 
@@ -139,7 +138,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background =
-            ContextCompat.getDrawable(this, R.drawable.selected_default_option_border_bg)
+            ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
     }
 
     private fun defaultOptionsView() {

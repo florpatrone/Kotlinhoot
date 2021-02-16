@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
     android:gravity="center"
+    android:background="@drawable/ic_bg"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -16,7 +16,7 @@
         android:layout_marginBottom="30dp"
         android:gravity="center"
         android:text="KOTLINHOOT"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Hola!"
-                android:textColor="@color/colorAccent"
+                android:textColor="#363A43"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Introduce tu nombre"
-                android:textColor="@color/black"
+                android:textColor="#7A8089"
                 android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -63,9 +63,11 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionGo"
                     android:hint="Nombre"
-                    android:textColor="@color/colorAccent"
-                    android:textColorHint="@color/black" />
+                    android:inputType="textCapWords"
+                    android:textColor="#363A43"
+                    android:textColorHint="#7A8089" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
