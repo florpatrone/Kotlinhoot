@@ -10,7 +10,7 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        val username = intent.getStringExtra(Constants.USER_NAME)
+        val username = intent.getStringExtra(Constants.USER_NAME_ONE)
         tv_name.text = username
         val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS, 0)
         val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWERS, 0)

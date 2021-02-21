@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@drawable/ic_bg"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -53,18 +53,37 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_name"
+                android:id="@+id/til_name_one"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/et_name_one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Jugador 1"
                     android:imeOptions="actionGo"
-                    android:hint="Nombre"
+                    android:inputType="textCapWords"
+                    android:textColor="#363A43"
+                    android:textColorHint="#7A8089" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_name_two"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_name_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Jugador 2"
+                    android:imeOptions="actionGo"
                     android:inputType="textCapWords"
                     android:textColor="#363A43"
                     android:textColorHint="#7A8089" />

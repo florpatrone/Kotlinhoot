@@ -21,7 +21,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
-        mUserName = intent.getStringExtra(Constants.USER_NAME)
+        mUserName = intent.getStringExtra(Constants.USER_NAME_ONE)
 
         mQuestionsList = Constants.getQuestions()
         setQuestion()
@@ -62,7 +62,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
-                            intent.putExtra(Constants.USER_NAME, mUserName)
+                            intent.putExtra(Constants.USER_NAME_ONE, mUserName)
                             intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
                             startActivity(intent)
