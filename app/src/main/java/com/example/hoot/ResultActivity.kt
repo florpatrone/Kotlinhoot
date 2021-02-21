@@ -10,11 +10,23 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        val username = intent.getStringExtra(Constants.USER_NAME_ONE)
-        tv_name.text = username
+        val usernameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
+        val usernameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
         val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS, 0)
-        val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
-        tv_score.text = "Tu puntaje es: $correctAnswers de $totalQuestions"
+        val correctAnswersOne = intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
+        val correctAnswersTwo = 0
+        //intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
+
+        if (correctAnswersOne > correctAnswersTwo) {
+            tv_name.text = "GANADOR: $usernameOne"
+        } else if (correctAnswersOne < correctAnswersTwo) {
+            tv_name.text = "GANADOR: $usernameTwo"
+        } else {
+            tv_name.text = "EMPATE"
+        }
+
+        tv_score_one.text = "$usernameOne: $correctAnswersOne correctas de $totalQuestions"
+        tv_score_two.text = "$usernameTwo: $correctAnswersTwo correctas de $totalQuestions"
 
         btn_finish.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))

@@ -13,32 +13,35 @@ object Constants {
         val que1 = Question(
             1,
             "choice",
+            1,
             "Cuales de las siguientes son obras de Ray Bradbury?",
             "Fahrenheit 451",
             "Cronicas Marcianas",
             "Bovedas de Acero",
             "Remedio para melancolicos",
-            "El fin de la infancia",1
+            "El fin de la infancia"
         )
         val que2 = Question(
             2,
             "choice",
+            3,
             "Cuales de las siguientes bandas no son inglesas?",
             "Pink Floyd",
             "Queen",
             "Metallica",
             "Black Sabbath",
-            "DragonForce",3
+            "DragonForce"
         )
         val que3 = Question(
             3,
             "choice",
+            2,
             "Cuales de los siguientes son lenguajes de programacion?",
             "Kotlin",
             "CSS",
             "Brainfuck",
             "HTML",
-            "Oz",2
+            "Oz"
         )
 
         questionsList.add(que1)

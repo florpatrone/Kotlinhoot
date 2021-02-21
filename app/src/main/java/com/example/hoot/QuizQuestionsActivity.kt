@@ -19,14 +19,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mUserNameOne: String? = null
     private var mUserNameTwo: String? = null
     private var mQuestionType: String? = null
-    //private var mActiveUser: Int 0;
-
+    private var mActiveUser: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
-        mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
         mUserNameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
+        mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
 
         mQuestionsList = Constants.getQuestions()
         setQuestion()
@@ -70,6 +69,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
                             intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
+                            intent.putExtra(Constants.USER_NAME_TWO, mUserNameTwo)
                             intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
                             startActivity(intent)
@@ -80,7 +80,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     if (question!!.correctAnswer != mSelectedOptionPos) {
                         answerView(mSelectedOptionPos, R.drawable.wrong_option_border_bg)
                     } else {
-                        mCorrectAnswersOne++
+                        if (mActiveUser == 1){
+                            mCorrectAnswersOne++
+                        }else if (mActiveUser == 2){
+                            mCorrectAnswersTwo++
+                        }
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
