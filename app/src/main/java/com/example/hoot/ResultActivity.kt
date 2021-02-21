@@ -14,8 +14,7 @@ class ResultActivity : AppCompatActivity() {
         val usernameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
         val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS, 0)
         val correctAnswersOne = intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
-        val correctAnswersTwo = 0
-        //intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
+        val correctAnswersTwo =  intent.getIntExtra(Constants.CORRECT_ANSWERS_TWO, 0)
 
         if (correctAnswersOne > correctAnswersTwo) {
             tv_name.text = "GANADOR: $usernameOne"

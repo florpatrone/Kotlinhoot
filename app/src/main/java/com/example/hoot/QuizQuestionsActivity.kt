@@ -71,6 +71,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                             intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
                             intent.putExtra(Constants.USER_NAME_TWO, mUserNameTwo)
                             intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
+                            intent.putExtra(Constants.CORRECT_ANSWERS_TWO, mCorrectAnswersTwo)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
                             startActivity(intent)
                         }
@@ -94,6 +95,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         btn_submit.text = "SIGUIENTE"
                     }
                     mSelectedOptionPos = 0
+                    if (mActiveUser == 1){
+                        mActiveUser = 2
+                    }else if (mActiveUser == 2){
+                        mActiveUser = 1
+                    }
                 }
             }
         }
