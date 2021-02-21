@@ -1,11 +1,56 @@
 package com.example.hoot
 
+
+import com.google.gson.GsonBuilder
+import okhttp3.*
+import java.io.IOException
+
 object Constants {
     const val USER_NAME_ONE: String = "user_name_one"
     const val USER_NAME_TWO: String = "user_name_two"
     const val TOTAL_QUESTIONS: String = "total_questions"
     const val CORRECT_ANSWERS_ONE: String = "correct_answers_one"
     const val CORRECT_ANSWERS_TWO: String = "correct_answers_two"
+
+    private val client = OkHttpClient()
+
+    data class Pregunta(
+        val tipoPregunta: String,
+        val enunciado: String,
+        val id: Long,
+        val respuestas: List<Respuesta> = listOf(),
+        val cantidadCorrecta: Int
+    )
+
+
+    data class Respuesta(
+        val respuesta: String,
+        val isTrue: Boolean
+    )
+
+    fun fetchJson() {
+        val url = "https://run.mocky.io/v3/f6027d09-9c43-4ea3-bedf-0041a8003fad"
+        val request = Request.Builder().url(url).build()
+
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                    val body = response.body!!.string()
+
+                    val gson = GsonBuilder().create()
+                    val preguntas = gson.fromJson(body, Array<Pregunta>::class.java)
+                }
+            }
+        })
+
+    }
+
 
     fun getQuestions(): ArrayList<Question> {
         val questionsList = ArrayList<Question>()

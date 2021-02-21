@@ -28,6 +28,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
 
         mQuestionsList = Constants.getQuestions()
+        Constants.fetchJson()
         setQuestion()
 
 
