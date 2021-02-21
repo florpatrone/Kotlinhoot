@@ -14,25 +14,32 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mCurrentPos: Int = 1
     private var mQuestionsList: ArrayList<Question>? = null
     private var mSelectedOptionPos: Int = 0
-    private var mCorrectAnswers: Int = 0
-    private var mUserName: String? = null
+    private var mCorrectAnswersOne: Int = 0
+    private var mCorrectAnswersTwo: Int = 0
+    private var mUserNameOne: String? = null
+    private var mUserNameTwo: String? = null
+    private var mQuestionType: String? = null
+    //private var mActiveUser: Int 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
-        mUserName = intent.getStringExtra(Constants.USER_NAME_ONE)
+        mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
+        mUserNameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
 
         mQuestionsList = Constants.getQuestions()
         setQuestion()
 
+
         tv_option_one.setOnClickListener(this)
         tv_option_two.setOnClickListener(this)
-        tv_option_three.setOnClickListener(this)
-        tv_option_four.setOnClickListener(this)
-        tv_option_five.setOnClickListener(this)
+        if (mQuestionType == "choice"){
+            tv_option_three.setOnClickListener(this)
+            tv_option_four.setOnClickListener(this)
+            tv_option_five.setOnClickListener(this)
+        }
         btn_submit.setOnClickListener(this)
-
     }
 
     override fun onClick(v: View?) {
@@ -62,24 +69,24 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
-                            intent.putExtra(Constants.USER_NAME_ONE, mUserName)
-                            intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
+                            intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
+                            intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
                             startActivity(intent)
                         }
                     }
-                }else{
-                    val question = mQuestionsList?.get(mCurrentPos-1)
-                    if(question!!.correctAnswer != mSelectedOptionPos){
+                } else {
+                    val question = mQuestionsList?.get(mCurrentPos - 1)
+                    if (question!!.correctAnswer != mSelectedOptionPos) {
                         answerView(mSelectedOptionPos, R.drawable.wrong_option_border_bg)
-                    }else{
-                        mCorrectAnswers++
+                    } else {
+                        mCorrectAnswersOne++
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
-                    if(mCurrentPos == mQuestionsList!!.size){
+                    if (mCurrentPos == mQuestionsList!!.size) {
                         btn_submit.text = "TERMINAR"
-                    }else{
+                    } else {
                         btn_submit.text = "SIGUIENTE"
                     }
                     mSelectedOptionPos = 0
@@ -89,21 +96,32 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun answerView(answer: Int, drawableView: Int) {
-        when (answer) {
-            1 -> {
-                tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
+        if (mQuestionType == "choice") {
+            when (answer) {
+                1 -> {
+                    tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
+                }
+                2 -> {
+                    tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
+                }
+                3 -> {
+                    tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
+                }
+                4 -> {
+                    tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
+                }
+                5 -> {
+                    tv_option_five.background = ContextCompat.getDrawable(this, drawableView)
+                }
             }
-            2 -> {
-                tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
-            }
-            3 -> {
-                tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
-            }
-            4 -> {
-                tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
-            }
-            5 -> {
-                tv_option_five.background = ContextCompat.getDrawable(this, drawableView)
+        } else if (mQuestionType == "VF") {
+            when (answer) {
+                1 -> {
+                    tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
+                }
+                2 -> {
+                    tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
+                }
             }
         }
     }
@@ -112,11 +130,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         val question = mQuestionsList!![mCurrentPos - 1]
 
+        mQuestionType = question.type
+
         defaultOptionsView()
 
-        if (mCurrentPos == mQuestionsList!!.size){
+        if (mCurrentPos == mQuestionsList!!.size) {
             btn_submit.text = "TERMINAR"
-        }else{
+        } else {
             btn_submit.text = "ENVIAR"
         }
 
@@ -125,9 +145,12 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv_question.text = question.question
         tv_option_one.text = question.optionOne
         tv_option_two.text = question.optionTwo
-        tv_option_three.text = question.optionThree
-        tv_option_four.text = question.optionFour
-        tv_option_five.text = question.optionFive
+        if (mQuestionType == "choice"){
+            tv_option_three.text = question.optionThree
+            tv_option_four.text = question.optionFour
+            tv_option_five.text = question.optionFive
+
+        }
 
     }
 
@@ -143,11 +166,15 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun defaultOptionsView() {
         val options = ArrayList<TextView>()
+
         options.add(0, tv_option_one)
         options.add(1, tv_option_two)
-        options.add(2, tv_option_three)
-        options.add(3, tv_option_four)
-        options.add(4, tv_option_five)
+
+        if (mQuestionType == "choice") {
+            options.add(2, tv_option_three)
+            options.add(3, tv_option_four)
+            options.add(4, tv_option_five)
+        }
 
         for (option in options) {
             option.setTextColor(Color.parseColor("#7A8089"))
