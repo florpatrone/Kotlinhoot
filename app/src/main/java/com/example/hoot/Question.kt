@@ -1,13 +1,9 @@
 package com.example.hoot
 
 data class Question(
-    val id: Int,
+    val id: Long,
     val type: String,
-    val correctAnswer: Int,
+    val correctAnswers: Int,
     val question: String,
-    val optionOne: String,
-    val optionTwo: String,
-    val optionThree: String,
-    val optionFour: String,
-    val optionFive: String
+    val answers: List<Answer>
 )

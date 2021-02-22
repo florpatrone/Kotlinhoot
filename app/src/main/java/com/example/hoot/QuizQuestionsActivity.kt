@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_questions.*
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mCurrentPos: Int = 1
     private var mQuestionsList: ArrayList<Question>? = null
-    private var mSelectedOptionPos: Int = 0
+    private var mSelectedOptions = mutableSetOf<Int>()
     private var mCorrectAnswersOne: Int = 0
     private var mCorrectAnswersTwo: Int = 0
     private var mUserNameOne: String? = null
@@ -28,19 +28,20 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
 
         mQuestionsList = Constants.getQuestions()
-        Constants.fetchJson()
+        //mQuestionsList = Constants.fetchJson()
         setQuestion()
 
 
         tv_option_one.setOnClickListener(this)
         tv_option_two.setOnClickListener(this)
-        if (mQuestionType == "choice"){
+        if (mQuestionType == "choice") {
             tv_option_three.setOnClickListener(this)
             tv_option_four.setOnClickListener(this)
             tv_option_five.setOnClickListener(this)
         }
         btn_submit.setOnClickListener(this)
     }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -60,7 +61,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 selectedOptionView(tv_option_five, 5)
             }
             R.id.btn_submit -> {
-                if (mSelectedOptionPos == 0) {
+                if (mSelectedOptions.isEmpty()) {
                     mCurrentPos++
 
                     when {
@@ -78,33 +79,40 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }
                 } else {
-                    val question = mQuestionsList?.get(mCurrentPos - 1)
-                    if (question!!.correctAnswer != mSelectedOptionPos) {
-                        answerView(mSelectedOptionPos, R.drawable.wrong_option_border_bg)
-                    } else {
-                        if (mActiveUser == 1){
-                            mCorrectAnswersOne++
-                        }else if (mActiveUser == 2){
-                            mCorrectAnswersTwo++
-                        }
+                    val question = mQuestionsList!![mCurrentPos - 1]
+                    val choosenAnswers = getAnswers()
+                    val comparador = ComparadorRespuestas()
+                    val score = comparador.compararRespuestas(question, choosenAnswers)
+
+                    if (mActiveUser == 1) {
+                        mCorrectAnswersOne += score
+                    } else if (mActiveUser == 2) {
+                        mCorrectAnswersTwo += score
                     }
-                    answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
                     if (mCurrentPos == mQuestionsList!!.size) {
                         btn_submit.text = "TERMINAR"
                     } else {
                         btn_submit.text = "SIGUIENTE"
                     }
-                    mSelectedOptionPos = 0
-                    if (mActiveUser == 1){
+                    mSelectedOptions.clear()
+                    if (mActiveUser == 1) {
                         mActiveUser = 2
-                    }else if (mActiveUser == 2){
+                    } else if (mActiveUser == 2) {
                         mActiveUser = 1
                     }
                 }
             }
         }
     }
+
+    private fun getAnswers(): List<Answer> {
+        val question = mQuestionsList!![mCurrentPos-1]
+        val choosenAnswers = question.answers.filter { a: Answer ->
+            mSelectedOptions.contains(question.answers.indexOf(a)+1) }
+        return choosenAnswers
+    }
+
 
     private fun answerView(answer: Int, drawableView: Int) {
         if (mQuestionType == "choice") {
@@ -140,7 +148,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun setQuestion() {
 
         val question = mQuestionsList!![mCurrentPos - 1]
-
         mQuestionType = question.type
 
         defaultOptionsView()
@@ -154,25 +161,39 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         progress_bar.progress = mCurrentPos
         tv_progress.text = "$mCurrentPos" + "/" + progress_bar.max
         tv_question.text = question.question
-        tv_option_one.text = question.optionOne
-        tv_option_two.text = question.optionTwo
-        if (mQuestionType == "choice"){
-            tv_option_three.text = question.optionThree
-            tv_option_four.text = question.optionFour
-            tv_option_five.text = question.optionFive
-
+        tv_option_one.text = question.answers[0].answer
+        tv_option_two.text = question.answers[1].answer
+        if (mQuestionType == "choice") {
+            tv_option_three.text = question.answers[2].answer
+            tv_option_four.text = question.answers[3].answer
+            tv_option_five.text = question.answers[4].answer
         }
 
     }
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
-        defaultOptionsView()
-        mSelectedOptionPos = selectedOptionNum
+        if (mSelectedOptions.contains(selectedOptionNum)) {
+            unselectedOptionView(tv, selectedOptionNum)
+            return
+        }
+        mSelectedOptions.add(selectedOptionNum)
 
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background =
             ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+    }
+
+    private fun unselectedOptionView(tv: TextView, selectedOptionNum: Int) {
+        mSelectedOptions.remove(selectedOptionNum)
+
+        tv.setTextColor(Color.parseColor("#7A8089"))
+        tv.typeface = Typeface.DEFAULT
+        tv.background =
+            ContextCompat.getDrawable(
+                this@QuizQuestionsActivity,
+                R.drawable.default_option_border_bg
+            )
     }
 
     private fun defaultOptionsView() {

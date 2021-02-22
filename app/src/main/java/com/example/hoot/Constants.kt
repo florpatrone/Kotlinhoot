@@ -32,7 +32,6 @@ object Constants {
         val url = "https://run.mocky.io/v3/f6027d09-9c43-4ea3-bedf-0041a8003fad"
         val request = Request.Builder().url(url).build()
 
-
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
@@ -48,7 +47,6 @@ object Constants {
                 }
             }
         })
-
     }
 
 
@@ -58,35 +56,41 @@ object Constants {
         val que1 = Question(
             1,
             "choice",
-            1,
+            3,
             "Cuales de las siguientes son obras de Ray Bradbury?",
-            "Fahrenheit 451",
-            "Cronicas Marcianas",
-            "Bovedas de Acero",
-            "Remedio para melancolicos",
-            "El fin de la infancia"
+            listOf(
+                Answer("Fahrenheit 451", true),
+                Answer("Cronicas Marcianas", true),
+                Answer("Bovedas de Acero", false),
+                Answer("Remedio para melancolicos", true),
+                Answer("El fin de la infancia", false)
+            )
         )
         val que2 = Question(
             2,
             "choice",
-            3,
+            1,
             "Cuales de las siguientes bandas no son inglesas?",
-            "Pink Floyd",
-            "Queen",
-            "Metallica",
-            "Black Sabbath",
-            "DragonForce"
+            listOf(
+                Answer("Pink Floyd", false),
+                Answer("Queen", false),
+                Answer("Metallica", true),
+                Answer("Black Sabbath", false),
+                Answer("DragonForce", false)
+            )
         )
         val que3 = Question(
             3,
             "choice",
-            2,
+            3,
             "Cuales de los siguientes son lenguajes de programacion?",
-            "Kotlin",
-            "CSS",
-            "Brainfuck",
-            "HTML",
-            "Oz"
+            listOf(
+                Answer("Kotlin", true),
+                Answer("CSS", false),
+                Answer("Brainfuck", true),
+                Answer("HTML", false),
+                Answer("Oz", true)
+            )
         )
 
         questionsList.add(que1)

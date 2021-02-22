@@ -12,7 +12,6 @@ class ResultActivity : AppCompatActivity() {
 
         val usernameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
         val usernameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
-        val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS, 0)
         val correctAnswersOne = intent.getIntExtra(Constants.CORRECT_ANSWERS_ONE, 0)
         val correctAnswersTwo =  intent.getIntExtra(Constants.CORRECT_ANSWERS_TWO, 0)
 
@@ -24,8 +23,8 @@ class ResultActivity : AppCompatActivity() {
             tv_name.text = "EMPATE"
         }
 
-        tv_score_one.text = "$usernameOne: $correctAnswersOne correctas de $totalQuestions"
-        tv_score_two.text = "$usernameTwo: $correctAnswersTwo correctas de $totalQuestions"
+        tv_score_one.text = "$usernameOne - Puntaje: $correctAnswersOne"
+        tv_score_two.text = "$usernameTwo - Puntaje: $correctAnswersTwo"
 
         btn_finish.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
