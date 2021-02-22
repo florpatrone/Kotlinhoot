@@ -226,5 +226,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
         unselectedMultiplierView(tv_multiplier_x2)
         unselectedMultiplierView(tv_multiplier_x3)
+        tv_active_player.text = "JUGADOR: " + mJugadorActivo.getNombre()
     }
 }
