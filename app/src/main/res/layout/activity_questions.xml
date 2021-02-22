@@ -29,27 +29,30 @@
                 android:gravity="center"
                 android:text="Multiplicador"
                 android:textColor="#363A43"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                />
 
-            <Button
-                android:id="@+id/btn_multiplier_x2"
+            <TextView
+                android:id="@+id/tv_multiplier_x2"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
+                android:gravity="center"
                 android:text="x2"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
+                android:background="@drawable/default_option_border_bg"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_multiplier_x3"
+            <TextView
+                android:id="@+id/tv_multiplier_x3"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
+                android:gravity="center"
                 android:text="x3"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
+                android:background="@drawable/default_option_border_bg"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

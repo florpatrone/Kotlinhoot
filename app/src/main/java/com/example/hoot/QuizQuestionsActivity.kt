@@ -17,6 +17,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mTipoPregunta: String? = null
     private var mJugadorActivo: Jugador = Constants.JUGADOR_UNO
     private var mJugadorSiguiente: Jugador = Constants.JUGADOR_DOS
+    private var mMultiplicador = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv_option_three.setOnClickListener(this)
         tv_option_four.setOnClickListener(this)
         tv_option_five.setOnClickListener(this)
+        tv_multiplier_x2.setOnClickListener(this)
+        tv_multiplier_x3.setOnClickListener(this)
         btn_submit.setOnClickListener(this)
     }
 
@@ -59,6 +62,21 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     selectedOptionView(tv_option_five, 5)
                 }
             }
+            R.id.tv_multiplier_x2 -> {
+                if (mMultiplicador == 2){
+                    unselectedMultiplierView(tv_multiplier_x2)
+                }else{
+                    selectedMultiplierView(tv_multiplier_x2, 2)
+                }
+            }
+
+            R.id.tv_multiplier_x3 -> {
+                if (mMultiplicador == 3){
+                    unselectedMultiplierView(tv_multiplier_x3)
+                }else{
+                    selectedMultiplierView(tv_multiplier_x3, 3)
+                }
+            }
             R.id.btn_submit -> {
                 if (mOpcionesElegidas.isEmpty()) {
                     mPosActual++
@@ -79,6 +97,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     val comparador = ComparadorRespuestas()
                     val puntaje = comparador.compararRespuestas(pregunta, respuestasElegidas)
 
+                    mJugadorActivo.agregarMultiplicador(mMultiplicador)
                     mJugadorActivo.sumarPuntos(puntaje)
 
                     if (mPosActual == mListaPreguntas!!.size) {
@@ -90,6 +109,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     val aux = mJugadorActivo
                     mJugadorActivo = mJugadorSiguiente
                     mJugadorSiguiente = aux
+                    mMultiplicador = 1
+                    mJugadorActivo.agregarMultiplicador(mMultiplicador)
                 }
             }
         }
@@ -159,6 +180,26 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             )
     }
 
+    private fun selectedMultiplierView(tv: TextView, multiplier: Int) {
+        mMultiplicador = multiplier
+        tv.setTextColor(Color.parseColor("#FFFFFF"))
+        tv.setTypeface(tv.typeface, Typeface.BOLD)
+        tv.background =
+            ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+    }
+
+    private fun unselectedMultiplierView(tv: TextView) {
+        mMultiplicador = 1
+        tv.setTextColor(Color.parseColor("#000000"))
+        tv.typeface = Typeface.DEFAULT
+        tv.background =
+            ContextCompat.getDrawable(
+                this@QuizQuestionsActivity,
+                R.drawable.default_option_border_bg
+            )
+    }
+
+
     private fun defaultOptionsView() {
         val opciones = ArrayList<TextView>()
 
@@ -183,5 +224,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 )
             }
         }
+        unselectedMultiplierView(tv_multiplier_x2)
+        unselectedMultiplierView(tv_multiplier_x3)
     }
 }
