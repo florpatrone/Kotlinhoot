@@ -29,11 +29,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         tv_option_one.setOnClickListener(this)
         tv_option_two.setOnClickListener(this)
-        if (mTipoPregunta == "choice") {
-            tv_option_three.setOnClickListener(this)
-            tv_option_four.setOnClickListener(this)
-            tv_option_five.setOnClickListener(this)
-        }
+        tv_option_three.setOnClickListener(this)
+        tv_option_four.setOnClickListener(this)
+        tv_option_five.setOnClickListener(this)
         btn_submit.setOnClickListener(this)
     }
 
@@ -47,13 +45,19 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 selectedOptionView(tv_option_two, 2)
             }
             R.id.tv_option_three -> {
-                selectedOptionView(tv_option_three, 3)
+                if (mTipoPregunta == "choice") {
+                    selectedOptionView(tv_option_three, 3)
+                }
             }
             R.id.tv_option_four -> {
-                selectedOptionView(tv_option_four, 4)
+                if (mTipoPregunta == "choice") {
+                    selectedOptionView(tv_option_four, 4)
+                }
             }
             R.id.tv_option_five -> {
-                selectedOptionView(tv_option_five, 5)
+                if (mTipoPregunta == "choice") {
+                    selectedOptionView(tv_option_five, 5)
+                }
             }
             R.id.btn_submit -> {
                 if (mOpcionesElegidas.isEmpty()) {
@@ -65,10 +69,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
-                            //intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
-                            //intent.putExtra(Constants.USER_NAME_TWO, mUserNameTwo)
-                            //intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
-                            //intent.putExtra(Constants.CORRECT_ANSWERS_TWO, mCorrectAnswersTwo)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mListaPreguntas!!.size)
                             startActivity(intent)
                         }
@@ -126,6 +126,10 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             tv_option_three.text = pregunta.respuestas[2].respuesta
             tv_option_four.text = pregunta.respuestas[3].respuesta
             tv_option_five.text = pregunta.respuestas[4].respuesta
+        } else {
+            tv_option_three.text = " "
+            tv_option_four.text = " "
+            tv_option_five.text = " "
         }
 
     }
@@ -137,7 +141,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
         mOpcionesElegidas.add(selectedOptionNum)
 
-        tv.setTextColor(Color.parseColor("#363A43"))
+        tv.setTextColor(Color.parseColor("#FFFFFF"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background =
             ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
@@ -146,7 +150,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun unselectedOptionView(tv: TextView, selectedOptionNum: Int) {
         mOpcionesElegidas.remove(selectedOptionNum)
 
-        tv.setTextColor(Color.parseColor("#7A8089"))
+        tv.setTextColor(Color.parseColor("#E8222222"))
         tv.typeface = Typeface.DEFAULT
         tv.background =
             ContextCompat.getDrawable(
@@ -160,20 +164,24 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         opciones.add(0, tv_option_one)
         opciones.add(1, tv_option_two)
+        opciones.add(2, tv_option_three)
+        opciones.add(3, tv_option_four)
+        opciones.add(4, tv_option_five)
 
-        if (mTipoPregunta == "choice") {
-            opciones.add(2, tv_option_three)
-            opciones.add(3, tv_option_four)
-            opciones.add(4, tv_option_five)
-        }
 
-        for (opcion in opciones) {
-            opcion.setTextColor(Color.parseColor("#7A8089"))
+        for ((i, opcion) in opciones.withIndex()) {
+            opcion.setTextColor(Color.parseColor("#E8222222"))
             opcion.typeface = Typeface.DEFAULT
             opcion.background = ContextCompat.getDrawable(
                 this@QuizQuestionsActivity,
                 R.drawable.default_option_border_bg
             )
+            if ((mTipoPregunta == "VF") and (i >= 2)) {
+                opcion.background = ContextCompat.getDrawable(
+                    this@QuizQuestionsActivity,
+                    R.drawable.blank_option_border_bg
+                )
+            }
         }
     }
 }

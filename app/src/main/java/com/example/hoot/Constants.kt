@@ -12,20 +12,6 @@ object Constants {
 
     private val client = OkHttpClient()
 
-    data class Pregunta(
-        val tipoPregunta: String,
-        val enunciado: String,
-        val id: Long,
-        val respuestas: List<Respuesta> = listOf(),
-        val cantidadCorrecta: Int
-    )
-
-
-    data class Respuesta(
-        val respuesta: String,
-        val isTrue: Boolean
-    )
-
     fun fetchJson() {
         val url = "https://run.mocky.io/v3/f6027d09-9c43-4ea3-bedf-0041a8003fad"
         val request = Request.Builder().url(url).build()
@@ -51,49 +37,60 @@ object Constants {
     fun getQuestions(): ArrayList<com.example.hoot.Pregunta> {
         val listaPreguntas = ArrayList<com.example.hoot.Pregunta>()
 
-        val que1 = Pregunta(
+        val preg1 = Pregunta(
             1,
             "choice",
             3,
             "Cuales de las siguientes son obras de Ray Bradbury?",
             listOf(
-                com.example.hoot.Respuesta("Fahrenheit 451", true),
-                com.example.hoot.Respuesta("Cronicas Marcianas", true),
-                com.example.hoot.Respuesta("Bovedas de Acero", false),
-                com.example.hoot.Respuesta("Remedio para melancolicos", true),
-                com.example.hoot.Respuesta("El fin de la infancia", false)
+                Respuesta("Fahrenheit 451", true),
+                Respuesta("Cronicas Marcianas", true),
+                Respuesta("Bovedas de Acero", false),
+                Respuesta("Remedio para melancolicos", true),
+                Respuesta("El fin de la infancia", false)
             )
         )
-        val que2 = Pregunta(
+        val preg2 = Pregunta(
             2,
             "choice",
             1,
             "Cuales de las siguientes bandas no son inglesas?",
             listOf(
-                com.example.hoot.Respuesta("Pink Floyd", false),
-                com.example.hoot.Respuesta("Queen", false),
-                com.example.hoot.Respuesta("Metallica", true),
-                com.example.hoot.Respuesta("Black Sabbath", false),
-                com.example.hoot.Respuesta("DragonForce", false)
+                Respuesta("Pink Floyd", false),
+                Respuesta("Queen", false),
+                Respuesta("Metallica", true),
+                Respuesta("Black Sabbath", false),
+                Respuesta("DragonForce", false)
             )
         )
-        val que3 = Pregunta(
+        val preg3 = Pregunta(
             3,
             "choice",
             3,
             "Cuales de los siguientes son lenguajes de programacion?",
             listOf(
-                com.example.hoot.Respuesta("Kotlin", true),
-                com.example.hoot.Respuesta("CSS", false),
-                com.example.hoot.Respuesta("Brainfuck", true),
-                com.example.hoot.Respuesta("HTML", false),
-                com.example.hoot.Respuesta("Oz", true)
+                Respuesta("Kotlin", true),
+                Respuesta("CSS", false),
+                Respuesta("Brainfuck", true),
+                Respuesta("HTML", false),
+                Respuesta("Oz", true)
+            )
+        )
+        val preg4 = Pregunta(
+            4,
+            "VF",
+            1,
+            "2 + 2 = 4?",
+            listOf(
+                Respuesta("Verdadero", true),
+                Respuesta("Falso", false)
             )
         )
 
-        listaPreguntas.add(que1)
-        listaPreguntas.add(que2)
-        listaPreguntas.add(que3)
+        listaPreguntas.add(preg1)
+        listaPreguntas.add(preg4)
+        listaPreguntas.add(preg2)
+        listaPreguntas.add(preg3)
         return listaPreguntas
     }
 

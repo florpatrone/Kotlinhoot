@@ -103,7 +103,7 @@
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:padding="15dp"
-        android:textColor="#7A8089"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Apple" />
 
@@ -118,7 +118,7 @@
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:padding="15dp"
-        android:textColor="#7A8089"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Google" />
 
@@ -133,7 +133,7 @@
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:padding="15dp"
-        android:textColor="#7A8089"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Android Inc." />
 
@@ -148,7 +148,7 @@
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:padding="15dp"
-        android:textColor="#7A8089"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Nokia" />
 
@@ -163,7 +163,7 @@
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:padding="15dp"
-        android:textColor="#7A8089"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Motorola" />
 
