@@ -1,6 +1,6 @@
 package com.example.hoot
 
-data class Answer(
-    val answer: String,
+data class Respuesta(
+    val respuesta: String,
     val isTrue: Boolean
 )

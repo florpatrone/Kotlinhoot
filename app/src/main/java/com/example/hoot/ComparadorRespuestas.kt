@@ -2,7 +2,7 @@ package com.example.hoot
 
 class ComparadorRespuestas {
 
-    fun compararRespuestas(preguntaActual: Question, respuestasElegidas: List<Answer>): Int {
+    fun compararRespuestas(preguntaActual: Pregunta, respuestasElegidas: List<Respuesta>): Int {
 
         var cantidadIncorrectas: Int = 0
         var cantidadCorrecta: Int = 0
@@ -13,7 +13,7 @@ class ComparadorRespuestas {
             else cantidadCorrecta++
         }
 
-        if(preguntaActual.correctAnswers == cantidadCorrecta && (cantidadIncorrectas == 0)) {
+        if(preguntaActual.cantidadCorrecta == cantidadCorrecta && (cantidadIncorrectas == 0)) {
             return 1
         }
         else return -1

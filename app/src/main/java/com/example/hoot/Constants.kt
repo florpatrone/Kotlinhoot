@@ -6,11 +6,9 @@ import okhttp3.*
 import java.io.IOException
 
 object Constants {
-    const val USER_NAME_ONE: String = "user_name_one"
-    const val USER_NAME_TWO: String = "user_name_two"
+    var JUGADOR_UNO: Jugador = Jugador("")
+    var JUGADOR_DOS: Jugador = Jugador("")
     const val TOTAL_QUESTIONS: String = "total_questions"
-    const val CORRECT_ANSWERS_ONE: String = "correct_answers_one"
-    const val CORRECT_ANSWERS_TWO: String = "correct_answers_two"
 
     private val client = OkHttpClient()
 
@@ -50,53 +48,53 @@ object Constants {
     }
 
 
-    fun getQuestions(): ArrayList<Question> {
-        val questionsList = ArrayList<Question>()
+    fun getQuestions(): ArrayList<com.example.hoot.Pregunta> {
+        val listaPreguntas = ArrayList<com.example.hoot.Pregunta>()
 
-        val que1 = Question(
+        val que1 = Pregunta(
             1,
             "choice",
             3,
             "Cuales de las siguientes son obras de Ray Bradbury?",
             listOf(
-                Answer("Fahrenheit 451", true),
-                Answer("Cronicas Marcianas", true),
-                Answer("Bovedas de Acero", false),
-                Answer("Remedio para melancolicos", true),
-                Answer("El fin de la infancia", false)
+                com.example.hoot.Respuesta("Fahrenheit 451", true),
+                com.example.hoot.Respuesta("Cronicas Marcianas", true),
+                com.example.hoot.Respuesta("Bovedas de Acero", false),
+                com.example.hoot.Respuesta("Remedio para melancolicos", true),
+                com.example.hoot.Respuesta("El fin de la infancia", false)
             )
         )
-        val que2 = Question(
+        val que2 = Pregunta(
             2,
             "choice",
             1,
             "Cuales de las siguientes bandas no son inglesas?",
             listOf(
-                Answer("Pink Floyd", false),
-                Answer("Queen", false),
-                Answer("Metallica", true),
-                Answer("Black Sabbath", false),
-                Answer("DragonForce", false)
+                com.example.hoot.Respuesta("Pink Floyd", false),
+                com.example.hoot.Respuesta("Queen", false),
+                com.example.hoot.Respuesta("Metallica", true),
+                com.example.hoot.Respuesta("Black Sabbath", false),
+                com.example.hoot.Respuesta("DragonForce", false)
             )
         )
-        val que3 = Question(
+        val que3 = Pregunta(
             3,
             "choice",
             3,
             "Cuales de los siguientes son lenguajes de programacion?",
             listOf(
-                Answer("Kotlin", true),
-                Answer("CSS", false),
-                Answer("Brainfuck", true),
-                Answer("HTML", false),
-                Answer("Oz", true)
+                com.example.hoot.Respuesta("Kotlin", true),
+                com.example.hoot.Respuesta("CSS", false),
+                com.example.hoot.Respuesta("Brainfuck", true),
+                com.example.hoot.Respuesta("HTML", false),
+                com.example.hoot.Respuesta("Oz", true)
             )
         )
 
-        questionsList.add(que1)
-        questionsList.add(que2)
-        questionsList.add(que3)
-        return questionsList
+        listaPreguntas.add(que1)
+        listaPreguntas.add(que2)
+        listaPreguntas.add(que3)
+        return listaPreguntas
     }
 
 }

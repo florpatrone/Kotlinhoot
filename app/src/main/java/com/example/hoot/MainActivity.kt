@@ -17,8 +17,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor ingresa un nombre", Toast.LENGTH_SHORT).show()
             }else{
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
-                intent.putExtra(Constants.USER_NAME_TWO, et_name_two.text.toString())
-                intent.putExtra(Constants.USER_NAME_ONE, et_name_one.text.toString())
+                Constants.JUGADOR_UNO = Jugador(et_name_one.text.toString())
+                Constants.JUGADOR_DOS = Jugador(et_name_two.text.toString())
+
+                //intent.putExtra(Constants.USER_NAME_TWO, et_name_two.text.toString())
+                //intent.putExtra(Constants.USER_NAME_ONE, et_name_one.text.toString())
                 startActivity(intent)
                 finish()
             }

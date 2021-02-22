@@ -11,30 +11,25 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
-    private var mCurrentPos: Int = 1
-    private var mQuestionsList: ArrayList<Question>? = null
-    private var mSelectedOptions = mutableSetOf<Int>()
-    private var mCorrectAnswersOne: Int = 0
-    private var mCorrectAnswersTwo: Int = 0
-    private var mUserNameOne: String? = null
-    private var mUserNameTwo: String? = null
-    private var mQuestionType: String? = null
-    private var mActiveUser: Int = 1
+    private var mPosActual: Int = 1
+    private var mListaPreguntas: ArrayList<Pregunta>? = null
+    private var mOpcionesElegidas = mutableSetOf<Int>()
+    private var mTipoPregunta: String? = null
+    private var mJugadorActivo: Jugador = Constants.JUGADOR_UNO
+    private var mJugadorSiguiente: Jugador = Constants.JUGADOR_DOS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
-        mUserNameTwo = intent.getStringExtra(Constants.USER_NAME_TWO)
-        mUserNameOne = intent.getStringExtra(Constants.USER_NAME_ONE)
 
-        mQuestionsList = Constants.getQuestions()
+        mListaPreguntas = Constants.getQuestions()
         //mQuestionsList = Constants.fetchJson()
         setQuestion()
 
 
         tv_option_one.setOnClickListener(this)
         tv_option_two.setOnClickListener(this)
-        if (mQuestionType == "choice") {
+        if (mTipoPregunta == "choice") {
             tv_option_three.setOnClickListener(this)
             tv_option_four.setOnClickListener(this)
             tv_option_five.setOnClickListener(this)
@@ -61,122 +56,86 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 selectedOptionView(tv_option_five, 5)
             }
             R.id.btn_submit -> {
-                if (mSelectedOptions.isEmpty()) {
-                    mCurrentPos++
+                if (mOpcionesElegidas.isEmpty()) {
+                    mPosActual++
 
                     when {
-                        mCurrentPos <= mQuestionsList!!.size -> {
+                        mPosActual <= mListaPreguntas!!.size -> {
                             setQuestion()
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
-                            intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
-                            intent.putExtra(Constants.USER_NAME_TWO, mUserNameTwo)
-                            intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
-                            intent.putExtra(Constants.CORRECT_ANSWERS_TWO, mCorrectAnswersTwo)
-                            intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
+                            //intent.putExtra(Constants.USER_NAME_ONE, mUserNameOne)
+                            //intent.putExtra(Constants.USER_NAME_TWO, mUserNameTwo)
+                            //intent.putExtra(Constants.CORRECT_ANSWERS_ONE, mCorrectAnswersOne)
+                            //intent.putExtra(Constants.CORRECT_ANSWERS_TWO, mCorrectAnswersTwo)
+                            intent.putExtra(Constants.TOTAL_QUESTIONS, mListaPreguntas!!.size)
                             startActivity(intent)
                         }
                     }
                 } else {
-                    val question = mQuestionsList!![mCurrentPos - 1]
-                    val choosenAnswers = getAnswers()
+                    val pregunta = mListaPreguntas!![mPosActual - 1]
+                    val respuestasElegidas = getAnswers()
                     val comparador = ComparadorRespuestas()
-                    val score = comparador.compararRespuestas(question, choosenAnswers)
+                    val puntaje = comparador.compararRespuestas(pregunta, respuestasElegidas)
 
-                    if (mActiveUser == 1) {
-                        mCorrectAnswersOne += score
-                    } else if (mActiveUser == 2) {
-                        mCorrectAnswersTwo += score
-                    }
+                    mJugadorActivo.sumarPuntos(puntaje)
 
-                    if (mCurrentPos == mQuestionsList!!.size) {
+                    if (mPosActual == mListaPreguntas!!.size) {
                         btn_submit.text = "TERMINAR"
                     } else {
                         btn_submit.text = "SIGUIENTE"
                     }
-                    mSelectedOptions.clear()
-                    if (mActiveUser == 1) {
-                        mActiveUser = 2
-                    } else if (mActiveUser == 2) {
-                        mActiveUser = 1
-                    }
+                    mOpcionesElegidas.clear()
+                    val aux = mJugadorActivo
+                    mJugadorActivo = mJugadorSiguiente
+                    mJugadorSiguiente = aux
                 }
             }
         }
     }
 
-    private fun getAnswers(): List<Answer> {
-        val question = mQuestionsList!![mCurrentPos-1]
-        val choosenAnswers = question.answers.filter { a: Answer ->
-            mSelectedOptions.contains(question.answers.indexOf(a)+1) }
-        return choosenAnswers
-    }
-
-
-    private fun answerView(answer: Int, drawableView: Int) {
-        if (mQuestionType == "choice") {
-            when (answer) {
-                1 -> {
-                    tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
-                }
-                2 -> {
-                    tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
-                }
-                3 -> {
-                    tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
-                }
-                4 -> {
-                    tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
-                }
-                5 -> {
-                    tv_option_five.background = ContextCompat.getDrawable(this, drawableView)
-                }
-            }
-        } else if (mQuestionType == "VF") {
-            when (answer) {
-                1 -> {
-                    tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
-                }
-                2 -> {
-                    tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
-                }
-            }
+    private fun getAnswers(): List<Respuesta> {
+        val pregunta = mListaPreguntas!![mPosActual - 1]
+        val respuestasElegidas = pregunta.respuestas.filter { a: Respuesta ->
+            mOpcionesElegidas.contains(pregunta.respuestas.indexOf(a) + 1)
         }
+        return respuestasElegidas
     }
+
 
     private fun setQuestion() {
 
-        val question = mQuestionsList!![mCurrentPos - 1]
-        mQuestionType = question.type
+        val pregunta = mListaPreguntas!![mPosActual - 1]
+        mTipoPregunta = pregunta.tipoPregunta
 
         defaultOptionsView()
 
-        if (mCurrentPos == mQuestionsList!!.size) {
+        if (mPosActual == mListaPreguntas!!.size) {
             btn_submit.text = "TERMINAR"
         } else {
             btn_submit.text = "ENVIAR"
         }
 
-        progress_bar.progress = mCurrentPos
-        tv_progress.text = "$mCurrentPos" + "/" + progress_bar.max
-        tv_question.text = question.question
-        tv_option_one.text = question.answers[0].answer
-        tv_option_two.text = question.answers[1].answer
-        if (mQuestionType == "choice") {
-            tv_option_three.text = question.answers[2].answer
-            tv_option_four.text = question.answers[3].answer
-            tv_option_five.text = question.answers[4].answer
+        progress_bar.progress = mPosActual
+        tv_progress.text = "$mPosActual" + "/" + progress_bar.max
+        tv_question.text = pregunta.enunciado
+        tv_option_one.text = pregunta.respuestas[0].respuesta
+        tv_option_two.text = pregunta.respuestas[1].respuesta
+        if (mTipoPregunta == "choice") {
+            tv_option_three.text = pregunta.respuestas[2].respuesta
+            tv_option_four.text = pregunta.respuestas[3].respuesta
+            tv_option_five.text = pregunta.respuestas[4].respuesta
         }
 
     }
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
-        if (mSelectedOptions.contains(selectedOptionNum)) {
+        if (mOpcionesElegidas.contains(selectedOptionNum)) {
             unselectedOptionView(tv, selectedOptionNum)
             return
         }
-        mSelectedOptions.add(selectedOptionNum)
+        mOpcionesElegidas.add(selectedOptionNum)
 
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
@@ -185,7 +144,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun unselectedOptionView(tv: TextView, selectedOptionNum: Int) {
-        mSelectedOptions.remove(selectedOptionNum)
+        mOpcionesElegidas.remove(selectedOptionNum)
 
         tv.setTextColor(Color.parseColor("#7A8089"))
         tv.typeface = Typeface.DEFAULT
@@ -197,21 +156,21 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun defaultOptionsView() {
-        val options = ArrayList<TextView>()
+        val opciones = ArrayList<TextView>()
 
-        options.add(0, tv_option_one)
-        options.add(1, tv_option_two)
+        opciones.add(0, tv_option_one)
+        opciones.add(1, tv_option_two)
 
-        if (mQuestionType == "choice") {
-            options.add(2, tv_option_three)
-            options.add(3, tv_option_four)
-            options.add(4, tv_option_five)
+        if (mTipoPregunta == "choice") {
+            opciones.add(2, tv_option_three)
+            opciones.add(3, tv_option_four)
+            opciones.add(4, tv_option_five)
         }
 
-        for (option in options) {
-            option.setTextColor(Color.parseColor("#7A8089"))
-            option.typeface = Typeface.DEFAULT
-            option.background = ContextCompat.getDrawable(
+        for (opcion in opciones) {
+            opcion.setTextColor(Color.parseColor("#7A8089"))
+            opcion.typeface = Typeface.DEFAULT
+            opcion.background = ContextCompat.getDrawable(
                 this@QuizQuestionsActivity,
                 R.drawable.default_option_border_bg
             )
