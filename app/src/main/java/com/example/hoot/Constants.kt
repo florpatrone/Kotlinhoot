@@ -8,7 +8,7 @@ import java.io.IOException
 object Constants {
     var JUGADOR_UNO: Jugador = Jugador("")
     var JUGADOR_DOS: Jugador = Jugador("")
-    const val TOTAL_QUESTIONS: String = "total_questions"
+    const val TOTAL_PREGUNTAS: String = "total_questions"
 
     private val client = OkHttpClient()
 

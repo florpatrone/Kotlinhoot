@@ -87,7 +87,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
-                            intent.putExtra(Constants.TOTAL_QUESTIONS, mListaPreguntas!!.size)
+                            intent.putExtra(Constants.TOTAL_PREGUNTAS, mListaPreguntas!!.size)
                             startActivity(intent)
                         }
                     }
@@ -110,7 +110,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     mJugadorActivo = mJugadorSiguiente
                     mJugadorSiguiente = aux
                     mMultiplicador = 1
-                    mJugadorActivo.agregarMultiplicador(mMultiplicador)
                 }
             }
         }
@@ -226,6 +225,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
         unselectedMultiplierView(tv_multiplier_x2)
         unselectedMultiplierView(tv_multiplier_x3)
-        tv_active_player.text = "JUGADOR: " + mJugadorActivo.getNombre()
+        tv_active_player.text = mJugadorActivo.getNombre()
     }
 }
