@@ -8,9 +8,11 @@ import java.io.IOException
 object Constants {
     var JUGADOR_UNO: Jugador = Jugador("")
     var JUGADOR_DOS: Jugador = Jugador("")
+    var LISTA: ArrayList<Pregunta>? = null
     const val TOTAL_PREGUNTAS: String = "total_questions"
 
-    private val client = OkHttpClient()
+    /*private val client = OkHttpClient()
+
 
     fun fetchJson() {
         val url = "https://run.mocky.io/v3/f6027d09-9c43-4ea3-bedf-0041a8003fad"
@@ -28,10 +30,11 @@ object Constants {
 
                     val gson = GsonBuilder().create()
                     val preguntas = gson.fromJson(body, Array<Pregunta>::class.java)
+                    println(preguntas)
                 }
             }
         })
-    }
+    }*/
 
 
     fun getQuestions(): ArrayList<com.example.hoot.Pregunta> {
