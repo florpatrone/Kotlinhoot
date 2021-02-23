@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,13 +21,12 @@ class MainActivity : AppCompatActivity() {
         btn_start.setOnClickListener {
             if (et_name_one.text.toString().isEmpty() or et_name_two.text.toString().isEmpty()) {
                 Toast.makeText(this, "Por favor ingresa un nombre", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
                 Constants.JUGADOR_UNO = Jugador(et_name_one.text.toString())
                 Constants.JUGADOR_DOS = Jugador(et_name_two.text.toString())
 
-                searchData()
-                println(Constants.LISTA)
+                searchData2()
 
                 startActivity(intent)
                 finish()
@@ -35,21 +35,37 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun searchData(){
-        coroutineJob = CoroutineScope(Dispatchers.IO).launch {
+
+    private fun searchData2() =
+        runBlocking {
+
+            val lista: Response<List<Pregunta>> =
+                async { apiService?.getResult() }.await()!!
+            //if (response?.isSuccessful == true) {
+            //    lista = (response.body() as ArrayList<Pregunta>?)!!
+            //}
+            Constants.LISTA = lista.body() as ArrayList<Pregunta>
+            println("***********RESPUESTA")
+            println(Constants.LISTA)
+        }
+
+/*
+    private fun searchData(): ArrayList<Pregunta>? {
+        var lista2: ArrayList<Pregunta>? = null
+        var something = CoroutineScope(Dispatchers.Main).async {
             //coroutineJob = GlobalScope.launch {
             val response = apiService?.getResult()
 
-            //withContext(Dispatchers.Main){
-                if (response?.isSuccessful == true){
-                    var lista2 = response.body() as ArrayList<Pregunta>?
+            //withContext(Dispatchers.IO) {
+            if (response?.isSuccessful == true) {
+                lista2 = response.body() as ArrayList<Pregunta>?
+                println("***********RESPUESTA")
+                println(lista2)
 
-                    Constants.LISTA = lista2
-                }
+            }
             //}
         }
-    }
-
+    }*/
 
 
 }

@@ -235,7 +235,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 this@QuizQuestionsActivity,
                 R.drawable.default_option_border_bg
             )
-            if ((mTipoPregunta == "VF") and (i >= 2)) {
+            if ((mTipoPregunta == "vof") and (i >= 2)) {
                 opcion.background = ContextCompat.getDrawable(
                     this@QuizQuestionsActivity,
                     R.drawable.blank_option_border_bg

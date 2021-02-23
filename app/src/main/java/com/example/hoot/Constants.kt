@@ -11,30 +11,6 @@ object Constants {
     var LISTA: ArrayList<Pregunta>? = null
     const val TOTAL_PREGUNTAS: String = "total_questions"
 
-    /*private val client = OkHttpClient()
-
-
-    fun fetchJson() {
-        val url = "https://run.mocky.io/v3/f6027d09-9c43-4ea3-bedf-0041a8003fad"
-        val request = Request.Builder().url(url).build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    val body = response.body!!.string()
-
-                    val gson = GsonBuilder().create()
-                    val preguntas = gson.fromJson(body, Array<Pregunta>::class.java)
-                    println(preguntas)
-                }
-            }
-        })
-    }*/
 
 
     fun getQuestions(): ArrayList<com.example.hoot.Pregunta> {
@@ -81,7 +57,7 @@ object Constants {
         )
         val preg4 = Pregunta(
             4,
-            "VF",
+            "vof",
             1,
             "2 + 2 = 4?",
             listOf(
