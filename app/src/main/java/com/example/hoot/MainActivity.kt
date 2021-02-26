@@ -11,7 +11,6 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private var apiService: ApiService? = null
-    private var coroutineJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +25,7 @@ class MainActivity : AppCompatActivity() {
                 Constants.JUGADOR_UNO = Jugador(et_name_one.text.toString())
                 Constants.JUGADOR_DOS = Jugador(et_name_two.text.toString())
 
-                searchData2()
-
+                searchData()
                 startActivity(intent)
                 finish()
             }
@@ -36,36 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun searchData2() =
+    private fun searchData() =
         runBlocking {
 
             val lista: Response<List<Pregunta>> =
                 async { apiService?.getResult() }.await()!!
-            //if (response?.isSuccessful == true) {
-            //    lista = (response.body() as ArrayList<Pregunta>?)!!
-            //}
-            Constants.LISTA = lista.body() as ArrayList<Pregunta>
-            println("***********RESPUESTA")
-            println(Constants.LISTA)
+
+            Constants.LISTA_PREGUNTAS = lista.body() as ArrayList<Pregunta>
         }
-
-/*
-    private fun searchData(): ArrayList<Pregunta>? {
-        var lista2: ArrayList<Pregunta>? = null
-        var something = CoroutineScope(Dispatchers.Main).async {
-            //coroutineJob = GlobalScope.launch {
-            val response = apiService?.getResult()
-
-            //withContext(Dispatchers.IO) {
-            if (response?.isSuccessful == true) {
-                lista2 = response.body() as ArrayList<Pregunta>?
-                println("***********RESPUESTA")
-                println(lista2)
-
-            }
-            //}
-        }
-    }*/
-
-
 }

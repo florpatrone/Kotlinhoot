@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
-import kotlinx.coroutines.*
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mPosActual: Int = 1
@@ -20,18 +19,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mJugadorSiguiente: Jugador = Constants.JUGADOR_DOS
     private var mMultiplicador = 1
 
-    //private var apiService: ApiService? = null
-    //private var coroutineJob: Job? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
-        //apiService = ApiProvider.createService(ApiService::class.java)
-        //searchData()
 
-        //mListaPreguntas = Constants.getQuestions()
-        mListaPreguntas = Constants.LISTA
-        //Constants.fetchJson()
+        mListaPreguntas = Constants.LISTA_PREGUNTAS
 
         setQuestion()
 
@@ -44,19 +36,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv_multiplier_x3.setOnClickListener(this)
         btn_submit.setOnClickListener(this)
     }
-
-    /*private fun searchData(){
-        coroutineJob = CoroutineScope(Dispatchers.Main).launch {
-        //coroutineJob = GlobalScope.launch {
-            val response = apiService?.getResult()
-
-            withContext(Dispatchers.Main){
-                if (response?.isSuccessful == true){
-                    mListaPreguntas = response.body()?.data?.preguntas as ArrayList<Pregunta>?
-                }
-            }
-        }
-    }*/
 
     override fun onClick(v: View?) {
         when (v?.id) {

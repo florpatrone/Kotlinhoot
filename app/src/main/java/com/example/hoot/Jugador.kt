@@ -3,8 +3,6 @@ package com.example.hoot
 class Jugador(private val nombre: String) {
 
     var puntaje: Puntaje = Puntaje()
-    //lateinit var jugadorSiguiente: Jugador
-
 
     fun agregarMultiplicador(factor: Int) {
         puntaje.agregarMultiplicador(factor)
